@@ -1,0 +1,29 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: nodejs-clima
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nodejs-clima
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: nodejs-clima
+        image: bghk8sregistry.azurecr.io/demo/nodejs-clima:latest
+        ports:
+        - containerPort: 8080
+          name: nodejs-clima
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-clima
+spec:
+  ports:
+  - port: 8080
+  selector:
+    app: nodejs-clima
